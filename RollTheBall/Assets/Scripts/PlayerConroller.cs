@@ -1,17 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerConroller : MonoBehaviour
 {
     public float speed;
     Rigidbody playerRb;
+    public Text scoreText;
     private int count;
 
     void Start()
     {
         playerRb = this.GetComponent<Rigidbody>();
         count = 0;
+        UpdateScoreText();
     }
 
     void Update()
@@ -30,7 +33,12 @@ public class PlayerConroller : MonoBehaviour
         {
             collider.gameObject.SetActive(false);
             count++;
-            Debug.Log("Gem count is:" + count);
+            UpdateScoreText ();
         }
+    }
+
+    void UpdateScoreText()
+    {
+        scoreText.text = "Твой счёт: " + count;
     }
 }
