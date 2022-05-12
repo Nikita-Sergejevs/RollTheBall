@@ -9,6 +9,7 @@ public class PlayerConroller : MonoBehaviour
     private float speed;
     private Rigidbody playerRb;
     private int count;
+    private int starsCount;
     private GameObject[] games;
     private Vector3 startposition;
     private float boostTimer;
@@ -20,6 +21,7 @@ public class PlayerConroller : MonoBehaviour
         games = GameObject.FindGameObjectsWithTag("Spikes");
         startposition = playerRb.position;
         count = 0;
+        starsCount = 0;
         UpdateScoreText();
         boostTimer = 0;
         boosting = false;
@@ -69,7 +71,7 @@ public class PlayerConroller : MonoBehaviour
 
     void UpdateScoreText()
     {
-        scoreText.text = "Твой счёт: " + count;
+        scoreText.text = "Твой счет: " + count;
     }
 
     void restartGameState()
