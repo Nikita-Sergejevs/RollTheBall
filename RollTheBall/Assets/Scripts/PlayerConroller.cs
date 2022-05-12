@@ -6,10 +6,12 @@ public class PlayerConroller : MonoBehaviour
 {
     public float speed;
     Rigidbody playerRb;
+    private int count;
 
     void Start()
     {
         playerRb = this.GetComponent<Rigidbody>();
+        count = 0;
     }
 
     void Update()
@@ -20,5 +22,15 @@ public class PlayerConroller : MonoBehaviour
         Vector3 move = new Vector3 (moveHorizontal, 0.0f, moveVertical);
 
         playerRb.AddForce (move * speed * Time.deltaTime);  
+    }
+
+    void OnTriggerEnter(Collider collider)
+    {
+        if(collider.gameObject.CompareTag("Gem"))
+        {
+            collider.gameObject.SetActive(false);
+            count++;
+            Debug.Log("Gem count is:" + count);
+        }
     }
 }
