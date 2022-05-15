@@ -8,6 +8,8 @@ TagManager:
   - GameOver
   - Spikes
   - Bonuse
+  - Star
+  - Win
   layers:
   - Default
   - TransparentFX
