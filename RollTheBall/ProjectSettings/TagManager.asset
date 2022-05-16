@@ -5,11 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Gem
-  - GameOver
   - Spikes
   - Bonuse
   - Star
   - Win
+  - Debuf
   layers:
   - Default
   - TransparentFX

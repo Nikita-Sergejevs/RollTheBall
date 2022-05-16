@@ -16,13 +16,17 @@ public class PlayerConroller : MonoBehaviour
     public GameObject Finish;
     private GameObject[] gems;
     private GameObject[] stars;
+    private GameObject[] bonuses;
+    private GameObject[] debufs;
 
     private Vector3 startposition;
 
     private float boostTimer;
     private float speed;
+    private float slowdownTimer;
 
     private bool boosting;
+    private bool slowdown;
     private bool gameStarted;
 
     private int count;
@@ -33,6 +37,8 @@ public class PlayerConroller : MonoBehaviour
         playerRb = this.GetComponent<Rigidbody>();
         gems = GameObject.FindGameObjectsWithTag("Gem");
         stars = GameObject.FindGameObjectsWithTag("Star");
+        debufs = GameObject.FindGameObjectsWithTag("Debuf");
+        bonuses = GameObject.FindGameObjectsWithTag("Bonuse");
         startposition = playerRb.position;
         playAgainButton.onClick.AddListener(playAgainButtonAction);
         gameStarted = true;
@@ -51,7 +57,7 @@ public class PlayerConroller : MonoBehaviour
 
     void Update()
     {
-        if (gameStarted)
+        if(gameStarted)
         {
             float moveHorizontal = Input.GetAxis("Horizontal");
             float moveVertical = Input.GetAxis("Vertical");
@@ -60,15 +66,39 @@ public class PlayerConroller : MonoBehaviour
 
             playerRb.AddForce(move * speed * Time.deltaTime);
 
-            if (boosting)
+            if(boosting)
             {
                 boostTimer += Time.deltaTime;
-                if (boostTimer >= 5)
+                if(boostTimer >= 5)
                 {
                     speed = 1000;
                     boostTimer = 0;
                     boosting = false;
                 }
+                if(slowdown == true)
+                {
+                    speed = 1000;
+                    slowdown = false;
+                    slowdownTimer = 0;
+                }
+            }
+
+            if(slowdown)
+            {
+                slowdownTimer += Time.deltaTime;
+                if(slowdownTimer >= 5)
+                {
+                    speed = 1000;
+                    slowdownTimer = 0;
+                    slowdown = false;
+                }
+                if (slowdown == false)
+                {
+                    speed = 1000;
+                    boostTimer = 0;
+                    boosting = false;
+                }
+                
             }
         }
     }
@@ -89,12 +119,19 @@ public class PlayerConroller : MonoBehaviour
             WinText.gameObject.SetActive(true);
             playAgainButton.gameObject.SetActive(true);
             scoreText.gameObject.SetActive(false);
+            StarText.gameObject.SetActive(false);
 
         }
         else if(collider.gameObject.CompareTag("Bonuse"))
         { 
             boosting = true;
             speed = 2000;
+            collider.gameObject.SetActive(false);
+        }
+        else if(collider.gameObject.CompareTag("Debuf"))
+        {
+            slowdown = true;
+            speed = 300;
             collider.gameObject.SetActive(false);
         }
         
@@ -146,6 +183,17 @@ public class PlayerConroller : MonoBehaviour
             stars[i].gameObject.SetActive(true);
         }
 
+        for(int i = 0; i < bonuses.Length; i++)
+        {
+            bonuses[i].gameObject.SetActive(true);
+        }
+
+        for(int i = 0; i < debufs.Length; i++)
+        {
+            debufs[i].gameObject.SetActive(true);
+        }
+
+        speed = 1000;
         Finish.SetActive(false);
         playerRb.position = startposition;
         playerRb.velocity = Vector3.zero;
