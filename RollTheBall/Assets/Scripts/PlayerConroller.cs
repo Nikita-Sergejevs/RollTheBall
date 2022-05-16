@@ -120,6 +120,8 @@ public class PlayerConroller : MonoBehaviour
             playAgainButton.gameObject.SetActive(true);
             scoreText.gameObject.SetActive(false);
             StarText.gameObject.SetActive(false);
+            UiObject.gameObject.SetActive(false);
+            Finish.gameObject.SetActive(false);
 
         }
         else if(collider.gameObject.CompareTag("Bonuse"))
